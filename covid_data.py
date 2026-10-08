@@ -2,26 +2,24 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-
 def main():
-    print("--- DEL 1: INDLÆS DATA ---")
-
+    print("Del 1: Indlæs data")
 
     dato = pd.Timestamp('2020-05-26')
 
     dato_str = dato.strftime('%m-%d-%Y')
     path = f'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/{dato_str}.csv'
 
-    print(f"Henter data fra: {path}")
+    print(f"Jeg henter data fra: {path}")
     df = pd.read_csv(path)
 
-    print("\n--- df.head() ---")
+    print("\ndf.head()")
     print(df.head())
 
-    print("\n--- df.info() ---")
+    print("\ndf.info()")
     df.info()
 
-    print("\n--- DEL 2: DATARENSNING ---")
+    print("\nDel 2: Datarensning")
 
     df_renset = df.rename(columns={
         'Country_Region': 'Country',
@@ -34,10 +32,10 @@ def main():
 
     df_renset = df_renset.fillna(0)
 
-    print("Renset dataframe overblik:")
+    print("Se renset dataframe:")
     print(df_renset.head())
 
-    print("\n--- DEL 3: GRUPPÉR DATA ---")
+    print("\nDel 3: Grupper data")
 
     df_grupperet = df_renset.groupby('Country')[['Confirmed', 'Deaths', 'Recovered', 'Active']].sum().reset_index()
 
@@ -46,7 +44,7 @@ def main():
     print("\nTop 10 lande med flest bekræftede tilfælde:")
     print(top_10[['Country', 'Confirmed', 'Deaths']])
 
-    print("\n--- DEL 4: VISUALISERING ---")
+    print("\nDel 4: Visualisering")
 
     sns.set_theme(style="whitegrid")
 
@@ -60,7 +58,7 @@ def main():
         palette='viridis',
         legend=False
     )
-    plt.title('Top 10 lande: Bekræftede COVID-19 tilfælde (26. Maj 2020)', fontsize=14)
+    plt.title('Top 10 lande: Bekræftede Covid-19 tilfælde (26.maj 2020)', fontsize=14)
     plt.xlabel('Antal bekræftede tilfælde', fontsize=12)
     plt.ylabel('Land', fontsize=12)
     plt.tight_layout()
